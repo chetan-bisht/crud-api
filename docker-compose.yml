@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: badmash70
+      POSTGRES_DB: crud
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: node-api
+    ports:
+      - "5001:5001"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
